@@ -14,9 +14,26 @@ const validateEmail = (email) => {
   if (typeof email !== "string") {
     return "Email должен быть строкой";
   }
-  if (!email.includes("@") || !email.includes(".")) {
-    return "Email должен содержать @ и точку";
+  
+  const atIndex = email.indexOf("@");
+  if (atIndex === -1) {
+    return "Email должен содержать @";
   }
+  
+  const dotAfterAt = email.indexOf(".", atIndex);
+  if (dotAfterAt === -1) {
+    return "Email должен содержать точку после @";
+  }
+  
+  if (dotAfterAt === atIndex + 1) {
+    return "Некорректный формат email: точка не может быть сразу после @";
+  }
+  
+  const lastDotIndex = email.lastIndexOf(".");
+  if (lastDotIndex === email.length - 1 || lastDotIndex >= email.length - 2) {
+    return "Некорректный формат email: после точки должно быть не менее 2 символов";
+  }
+  
   return null;
 };
 
